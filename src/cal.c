@@ -81,7 +81,7 @@ static void* insert_cal(int argc, char **argv, void *data){
 			mktime (&tdata);
 
 			while(tdata.tm_mon==month-1){
-				sprintf (tmpstr,"%s%c%02i\n", wday[tdata.tm_wday], (tdata.tm_wday==0 || tdata.tm_wday==6)?'_':' ', tdata.tm_mday);
+				sprintf (tmpstr,"%s%c%02i\n", wday[tdata.tm_wday], (tdata.tm_wday==0 || tdata.tm_wday==6)?' ':' ', tdata.tm_mday);
 				import_node_text(&ist, 1, tmpstr);
 				
 				/* I prefer not to plan on this level
