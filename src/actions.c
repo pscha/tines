@@ -32,6 +32,7 @@ static char address[1024]="";*/
 static char web_command[255] = "lynx *";
 static char mail_command[255] = "rxvt -rv +sb -e mutt *";
 static char file_command[255] = "vim *";
+static char path_command[255] = "sh -c \"cd * && bash\"";
 
 static void* cmd_system(int argc, char **argv, void *data){
 	Node *pos=(Node *)data;
@@ -136,6 +137,36 @@ static int action_node (Node *node)
 		*dest = 0;
 		{
 			char *cs = file_command;
+			char *cd = cmdline;
+
+			while (*cs) {
+				if (*cs == '*') {
+					strcat (cd, url + 7);
+					strcat (cd, cs + 1);
+					cli_outfunf ("shelling out: %s", cmdline);
+					//strcat(cd,"> /dev/null 2>&1 &");
+					break;
+				} else {
+					*cd = *cs;
+					*(++cd) = '\0';
+				}
+				cs++;
+			}
+		}
+	}
+	else if(start = strstr (fixnullstring (node_get (node, TEXT)), "path://")){
+		char url[200];
+		char *dest;
+
+		dest = url;
+		while (*start && !isspace ((unsigned char)*start)) {
+			*dest = *start;
+			dest++;
+			start++;
+		}
+		*dest = 0;
+		{
+			char *cs = path_command;
 			char *cd = cmdline;
 
 			while (*cs) {
