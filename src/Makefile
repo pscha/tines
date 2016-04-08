@@ -8,8 +8,9 @@ OBJS=$(patsubst %.c,%.o,$(CFILES))
 	$(CC) -c $(CFLAGS) $(CPPFLAGS) -o $@ $<
 
 tines: libcli/libcli.a Makefile $(OBJS) init_subsystems.c *.h ../doc/*.inc
+	@echo ${CC}
 	$(CC) -o tines $(OBJS) $(LIBS) $(CFLAGS)
-#	strip tines
+	strip tines
 
 libcli/libcli.a: libcli/*.c
 	(cd libcli;make libcli.a)
